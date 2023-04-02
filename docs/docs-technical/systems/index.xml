@@ -1,4 +1,4 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Boundfox Studios Community-Projekt – Systeme</title><link>https://boundfoxstudios.github.io/community-project/docs/docs-technical/systems/</link><description>Recent content in Systeme on Boundfox Studios Community-Projekt</description><generator>Hugo -- gohugo.io</generator><language>de-de</language><atom:link href="https://boundfoxstudios.github.io/community-project/docs/docs-technical/systems/index.xml" rel="self" type="application/rss+xml"/><item><title>Docs: Audio Cue (Sound Effekte)</title><link>https://boundfoxstudios.github.io/community-project/docs/docs-technical/systems/audiocue-system/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://boundfoxstudios.github.io/community-project/docs/docs-technical/systems/audiocue-system/</guid><description>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Fairy Tale Defender – Systeme</title><link>https://docs.fairytaledefender.de/docs/docs-technical/systems/</link><description>Recent content in Systeme on Fairy Tale Defender</description><generator>Hugo -- gohugo.io</generator><language>de-de</language><atom:link href="https://docs.fairytaledefender.de/docs/docs-technical/systems/index.xml" rel="self" type="application/rss+xml"/><item><title>Docs: Audio Cue (Sound Effekte)</title><link>https://docs.fairytaledefender.de/docs/docs-technical/systems/audiocue-system/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://docs.fairytaledefender.de/docs/docs-technical/systems/audiocue-system/</guid><description>
 &lt;p>Das AudioCue-System dient dazu, einzelne Soundeffekte abzuspielen.
 Man möchte vielleicht fragen, warum nicht einfach das GameObjekt, welches den Sound benötigt eine AudioSource hat,
 welche dann den Sound abspielt. Dies ginge theoretisch, allerdings gibt es bei z.B. dem Tod einer Einheit das
@@ -11,82 +11,47 @@ wird dies von einem System, welches diese Aufgabe zentraliesiert, übernommen.&l
 &lt;p>Das abspielende GameObject muss eine Referenz, nennen wir sie &lt;code>eventChannel&lt;/code> zu dem AudioCueEventChannelSO, abegelegt unter &lt;code>ScriptableObjects/Events&lt;/code>,
 haben. Außerdem muss das GameObject die Instanz, beispielsweise &lt;code>PlayerDeathSound&lt;/code> des AudioCueSO mit dem entsprechenden Clip kennen. Anschließend
 muss das Event mit &lt;code>eventChannel.Invoke(PlayerDeathSound);&lt;/code> geworfen werden. Nun ist die Arbeit auf Seiten des Abspielenden GameObject erledigt
-und es kann sich selbst zerstören/zerstört werden, ohne dass Probleme auftreten.&lt;/p></description></item><item><title>Docs: Event-System</title><link>https://boundfoxstudios.github.io/community-project/docs/docs-technical/systems/event-system/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://boundfoxstudios.github.io/community-project/docs/docs-technical/systems/event-system/</guid><description>
-&lt;p>[ &lt;a href="https://www.youtube.com/watch?v=qqzZZfgtQyU&amp;amp;list=PLxVAs8AY4TgeLrapbKxWAmbfwAbTOaLDc&amp;amp;index=2">Boundfox YouTube Tutorial&lt;/a> ]&lt;/p>
-&lt;p>Wenn Du noch nicht weißt, was ein Event-System ist, dann ist &lt;a href="#was-ist-ein-event-system">weiter unten&lt;/a> eine kleine Erklärung.&lt;/p>
-&lt;h2 id="implementierung">Implementierung&lt;/h2>
-&lt;p>Im Code findest Du das Event-System &lt;a href="https://github.com/BoundfoxStudios/community-project/tree/develop/CommunityProject/Assets/_Game/Scripts/Runtime/Events/ScriptableObjects">hier&lt;/a>.
-Es besteht aus mehreren Event Channels in Form von ScriptableObjects.
-Ein Event Channel ist schlicht ein Kanal über den Informationen laufen.&lt;/p>
-&lt;p>Jeder kann Informationen in ein Event Channel geben und jeder kann diese Informationen mitbekommen.
-Dadurch das wir hier auf ScriptableObjects setzen, können Sender und Empfänger in unterschiedlichen Szenen sein, was z.B. für das &lt;a href="../multi-scene-management/">Multi-Scene-Management&lt;/a> sehr praktisch ist.&lt;/p>
-&lt;pre tabindex="0">&lt;code class="language-mermaid" data-lang="mermaid">flowchart LR
-Action[&amp;#34;Aktion/Trigger (MonoBehaviour)&amp;#34;] --&amp;gt;|&amp;#34;Raise()&amp;#34;| Event[&amp;#34;Event (ScriptableObject)&amp;#34;]
-EventListener[&amp;#34;Event Listener (MonoBehaviour)&amp;#34;] --&amp;gt;|&amp;#34;Horcht auf&amp;#34;| Event
-EventListener --&amp;gt; Response[&amp;#34;Antwort auf Event&amp;#34;]
-&lt;/code>&lt;/pre>&lt;h2 id="was-ist-ein-event-system">Was ist ein Event-System?&lt;/h2>
-&lt;p>Der Sinn eines Event-Systems ist es, Systeme zu entkoppeln.&lt;/p>
-&lt;p>Nehmen wir als Beispiel mal das Leben des Spielers.
-Wenn der Spieler Leben verliert oder bekommt, möchte man das in der Regel im UI anzeigen.
-Jetzt könnte der Spieler eine Referenz auf das UI haben (oder auch umgekehrt) und sobald der Spieler Leben verliert oder gewinnt, diese Änderung direkt an das UI übertragen.
-Weiter möchten wir, dass die Gegner sich anders verhalten, je nach dem, wie viel Leben der Spieler hat.
-Auch hier könnte jetzt der Spieler alle Gegner kennen und ihnen mitteilen, wenn sich das Leben verändert.
-Weiter geht&amp;rsquo;s mit anderen Systemen: Post Processing zum Effekte je nach Leben anzeigen, Audio System, dass entsprechend den Sound ändert etc.&lt;/p>
-&lt;pre tabindex="0">&lt;code class="language-mermaid" data-lang="mermaid">flowchart LR
-Spieler --&amp;gt; UI
-Spieler --&amp;gt; Gegner1
-Spieler --&amp;gt; ...
-Spieler --&amp;gt; GegnerX
-Spieler --&amp;gt; PostProcessing
-Spieler --&amp;gt; AudioSystem
-&lt;/code>&lt;/pre>&lt;p>Wenn der Spieler all diese Systeme direkt kennen würde, nennt man dies auch eine hohe Kopplung.
-In der Softwareentwicklung versucht man, genau diese hohe Kopplung zu vermeiden.
-Auch wenn dieses Beispiel hier sehr einfach gehalten ist, führt diese Kopplung langsam aber sicher zu schlecht wartbarem Code.
-Denn, wann immer man sich die Spieler-Klasse ansieht, sehen wir viele Abhängigkeiten im Code.
-Jetzt muss jeder Entwickler schauen, was genau diese Abhängigkeiten machen, um zu verstehen, wie die Spieler-Klasse funktioniert.
-Außerdem hat die Spieler-Klasse viel mehr Verantwortung, als sie eigentlich haben müsste, da sie viele Bereiche der Gesamtanwendung kennt und bearbeitet.&lt;/p>
-&lt;p>Das ist in der Softwareentwicklung &lt;em>kein&lt;/em> erstrebenswerter Zustand.&lt;/p>
-&lt;p>Viel mehr wollen wir eine Entkopplung erreichen und hier tritt unser Event-System ein:&lt;/p>
-&lt;pre tabindex="0">&lt;code class="language-mermaid" data-lang="mermaid">flowchart LR
-Spieler --&amp;gt;|Leben: 50| EventSystem
-EventSystem --&amp;gt;|Leben: 50| UI
-EventSystem --&amp;gt;|Leben: 50| GegnerX
-EventSystem --&amp;gt;|Leben: 50| PostProcessing
-EventSystem --&amp;gt;|Leben: 50| AudioSystem
-&lt;/code>&lt;/pre>&lt;p>Leider sieht es jetzt durch die Grafik so aus, als hätten wir das Problem zum Event-System verschoben, dass jetzt alle anderen kennt.
-Dem ist aber nicht so.
-Anstelle dass der Spieler jedes Einzelsystem bearbeitet, nutzt es einfach nur das Event-System und teilt sein aktuelles Leben mit.
-Was jetzt damit passiert, &lt;em>das ist dem Spieler vollkommen egal&lt;/em>.
-In diesem Moment haben wir alles voneinander entkoppelt.
-Die Spieler-Klasse hat viel weniger Verantwortlichkeiten, auch für den Entwickler ist es jetzt sehr viel einfacher zu verstehen, da statt viele Einzelsysteme nur noch das Event-System angesprochen wird.
-Damit haben wir jetzt eine &lt;em>lose Kopplung&lt;/em> erreicht.&lt;/p>
-&lt;p>Einfach ausgedrückt kann man sich das Event-System als eine Art Walkie-Talkie vorstellen.
-Jemand teilt seinen Zustand über das Walkie-Talkie mit, ohne zu wissen, wer diese Nachricht hört, ob sich jemand dafür interessiert und was mit der Information passiert.&lt;/p></description></item><item><title>Docs: Multi Scene Management</title><link>https://boundfoxstudios.github.io/community-project/docs/docs-technical/systems/multi-scene-management/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://boundfoxstudios.github.io/community-project/docs/docs-technical/systems/multi-scene-management/</guid><description>
+und es kann sich selbst zerstören/zerstört werden, ohne dass Probleme auftreten.&lt;/p></description></item><item><title>Docs: Event-System</title><link>https://docs.fairytaledefender.de/docs/docs-technical/systems/event-system/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://docs.fairytaledefender.de/docs/docs-technical/systems/event-system/</guid><description>
+&lt;p>Solltest Du nicht Wissen, was genau ein Event-Sytem ist, dann schau am besten einmal &lt;a href="explanation/">hier&lt;/a>.&lt;/p>
+&lt;h2 id="bestehende-events">Bestehende Events&lt;/h2>
+&lt;p>Bestehende Events findest Du im Ordner &lt;code>_Game/ScriptableObjects/Events&lt;/code>.
+Zu jedem Event gibt es dort auch eine kleine Erklärung, für was genau es zur Verfügung steht.&lt;/p>
+&lt;h2 id="event-folgen">Event-Folgen&lt;/h2>
+&lt;h3 id="spielstart">Spielstart&lt;/h3>
+&lt;div class="mermaid">flowchart TD
+LoadScene --> ToggleLoadingScreen1
+ToggleLoadingScreen1[ToggleLoadingScreen] --> LoadLevel{{Level wird geladen}}
+LoadLevel --> ToggleLoadingScreen2[ToggleLoadingScreen]
+ToggleLoadingScreen2 --> InitLevel{{Level wird initialisiert}}
+InitLevel --> SceneReady
+SceneReady --> GameplayStart
+&lt;/div></description></item><item><title>Docs: Multi Scene Management</title><link>https://docs.fairytaledefender.de/docs/docs-technical/systems/multi-scene-management/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://docs.fairytaledefender.de/docs/docs-technical/systems/multi-scene-management/</guid><description>
 &lt;p>Unity ist in der Lage, mehrere Szenen gleichzeitig laufen zu lassen.
 Dabei können wir als Entwickler bestimmen, wann wir neue Szenen dazu laden oder auch welche wieder entladen.
 In Unity-sprech ist das ein &lt;em>additives Laden von Szenen&lt;/em>.&lt;/p>
 &lt;p>Der Ablauf ist aktuell wie folgt:&lt;/p>
 &lt;ul>
-&lt;li>Wir laden zum Start des Spiels die &lt;code>Initialization&lt;/code>-Szene. Sie hat nur ein einziges Objekt mit dem &lt;a href="https://github.com/BoundfoxStudios/community-project/blob/develop/CommunityProject/Assets/_Game/Scripts/Runtime/SceneManagement/InitializationLoader.cs">InitializationLoader&lt;/a>-Script. Dieses Script startet das eigentliche Spiel, in dem es zwei weitere Szenen lädt: &lt;code>PersistentManagers&lt;/code> und das &lt;code>MainMenu&lt;/code>. Danach wird die &lt;code>Initialization&lt;/code>-Szene entladen.&lt;/li>
-&lt;li>&lt;code>PersistentManagers&lt;/code> ist eine Szene, die einmalig geladen wird und während der gesamten Laufzeit vom Spiel nie wieder entladen wird. In dieser Szene liegen Objekte/Manager, die wir das gesamte Spiel über benötigen, z.B. Hintergrundmusik oder das Laden von anderen Szenen (via &lt;a href="https://github.com/BoundfoxStudios/community-project/blob/develop/CommunityProject/Assets/_Game/Scripts/Runtime/SceneManagement/SceneLoader.cs">SceneLoader&lt;/a>-Skript). Über ein &lt;a href="../event-system/">Event-System&lt;/a> können andere Szenen und Objekte mit den &lt;code>PersistentManagers&lt;/code> kommunizieren. Für den Fall, dass man in Unity den Play Mode von einer anderen Szene aus startet (was durchaus üblich ist), kümmert sich ein &lt;code>EditorOnly&lt;/code>-GameObject darum, diese &lt;code>PersistentManagers&lt;/code> zu laden. So, als hätte man das Spiel über die &lt;code>Initialization&lt;/code>-Szene gestartet. Dieser Vorgang nennt sich im Community-Projekt &amp;ldquo;EditorColdStartup&amp;rdquo;.&lt;/li>
+&lt;li>Wir laden zum Start des Spiels die &lt;code>Initialization&lt;/code>-Szene. Sie hat nur ein einziges Objekt mit dem &lt;a href="https://github.com/BoundfoxStudios/community-project/blob/develop/CommunityProject/Assets/_Game/Scripts/Runtime/Infrastructure/SceneManagement/InitializationLoader.cs">InitializationLoader&lt;/a>-Script. Dieses Script startet das eigentliche Spiel, in dem es zwei weitere Szenen lädt: &lt;code>PersistentManagers&lt;/code> und das &lt;code>MainMenu&lt;/code>. Danach wird die &lt;code>Initialization&lt;/code>-Szene entladen.&lt;/li>
+&lt;li>&lt;code>PersistentManagers&lt;/code> ist eine Szene, die einmalig geladen wird und während der gesamten Laufzeit vom Spiel nie wieder entladen wird. In dieser Szene liegen Objekte/Manager, die wir das gesamte Spiel über benötigen, z.B. Hintergrundmusik oder das Laden von anderen Szenen (via &lt;a href="https://github.com/BoundfoxStudios/community-project/blob/develop/CommunityProject/Assets/_Game/Scripts/Runtime/Infrastructure/SceneManagement/SceneLoader.cs">SceneLoader&lt;/a>-Skript). Über ein &lt;a href="../event-system/">Event-System&lt;/a> können andere Szenen und Objekte mit den &lt;code>PersistentManagers&lt;/code> kommunizieren. Für den Fall, dass man in Unity den Play Mode von einer anderen Szene aus startet (was durchaus üblich ist), kümmert sich ein &lt;code>EditorOnly&lt;/code>-GameObject darum, diese &lt;code>PersistentManagers&lt;/code> zu laden. So, als hätte man das Spiel über die &lt;code>Initialization&lt;/code>-Szene gestartet. Dieser Vorgang nennt sich bei Fairy Tale Defender &amp;ldquo;EditorColdStartup&amp;rdquo;.&lt;/li>
 &lt;/ul>
-&lt;p>Die Implementierung des Multi Scene Managements findet sich im Ordner &lt;a href="https://github.com/BoundfoxStudios/community-project/tree/develop/CommunityProject/Assets/_Game/Scripts/Runtime/SceneManagement">SceneManagement&lt;/a>.&lt;/p>
-&lt;pre tabindex="0">&lt;code class="language-mermaid" data-lang="mermaid">sequenceDiagram
+&lt;p>Die Implementierung des Multi Scene Managements findet sich im Ordner &lt;a href="https://github.com/BoundfoxStudios/community-project/tree/develop/CommunityProject/Assets/_Game/Scripts/Runtime/Infrastructure/SceneManagement">SceneManagement&lt;/a>.&lt;/p>
+&lt;div class="mermaid">sequenceDiagram
 autonumber
-Spielstart -&amp;gt;&amp;gt; Initialization: Lädt
+Spielstart ->> Initialization: Lädt
 activate Spielstart
 activate Initialization
-Initialization -&amp;gt;&amp;gt; PersistentManagers: Lädt
+Initialization ->> PersistentManagers: Lädt
 activate PersistentManagers
-Initialization -&amp;gt;&amp;gt; PersistentManagers: Event: LoadScene &amp;#34;MainMenu&amp;#34;
-PersistentManagers -&amp;gt;&amp;gt; MainMenu: Lädt
-Initialization -&amp;gt;&amp;gt; Initialization: Entlädt sich selbst
+Initialization ->> PersistentManagers: Event: LoadScene "MainMenu"
+PersistentManagers ->> MainMenu: Lädt
+Initialization ->> Initialization: Entlädt sich selbst
 deactivate Initialization
-Note over PersistentManagers, MainMenu: Typischer Spielablauf...&amp;lt;br&amp;gt;Spiel wird gespielt...
-PersistentManagers -&amp;gt;&amp;gt; Spielstart: Spiel beenden
+Note over PersistentManagers, MainMenu: Typischer Spielablauf...&lt;br>Spiel wird gespielt...
+PersistentManagers ->> Spielstart: Spiel beenden
 deactivate PersistentManagers
 deactivate Spielstart
-&lt;/code>&lt;/pre>&lt;h2 id="vorteile">Vorteile&lt;/h2>
+&lt;/div>
+&lt;h2 id="vorteile">Vorteile&lt;/h2>
 &lt;h3 id="kein-dontdestroyonload-notwendig">Kein &lt;code>DontDestroyOnLoad&lt;/code> notwendig&lt;/h3>
 &lt;p>&lt;code>DontDestroyOnLoad&lt;/code> (DDOL) bringt einige Nachteile mitsich:&lt;/p>
 &lt;ul>
@@ -117,9 +82,9 @@ Auch hier haben wir bereits ein Board-Mittel von Unity: ScriptableObjects.&lt;/p
 &lt;ul>
 &lt;li>Komplexität: Gerade für Anfänger, die bisher nur mit einer Szene gearbeitet haben, kann Multi Scene Management zu Beginn sehr komplex wirken.&lt;/li>
 &lt;li>Umdenken: Eigentlich was positives, aber anfänglich eher als Nachteil zu sehen: Man muss umdenken, wie der Code strukturiert ist, da man auf gewisse Dinge eben nicht sofort Zugriff hat, sondern eine Indirektion, z.B. über das &lt;a href="../event-system/">Event-System&lt;/a> gehen muss.&lt;/li>
-&lt;/ul></description></item><item><title>Docs: Prefabs</title><link>https://boundfoxstudios.github.io/community-project/docs/docs-technical/systems/prefabs/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://boundfoxstudios.github.io/community-project/docs/docs-technical/systems/prefabs/</guid><description>
+&lt;/ul></description></item><item><title>Docs: Prefabs</title><link>https://docs.fairytaledefender.de/docs/docs-technical/systems/prefabs/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://docs.fairytaledefender.de/docs/docs-technical/systems/prefabs/</guid><description>
 &lt;h2 id="ui-prefabs">UI Prefabs&lt;/h2>
-&lt;p>Im Community-Projekt nutzen wir ein kleines System, um einfacher Prefabs für das UI finden zu können.
+&lt;p>Wir nutzen ein kleines System, um einfacher Prefabs für das UI finden zu können.
 Generell liegen die Prefabs im Ordner &lt;code>Prefabs/UI&lt;/code>.&lt;/p>
 &lt;p>Um komfortabel ein UI zusammenbauen zu können, integrieren wir unsere eigenen Prefabs auch in das Menü von Unity (Rechtsklick in der Hierarchy).
 Auf diese Art funktioniert das Zusammenstecken von UI-Elementen ähnlich wie bei den Standard-Unity-Elementen.&lt;/p>
@@ -132,13 +97,179 @@ Du findest die Instanz unter &lt;code>ScriptableObjects/PrefabManager&lt;/code>,
 &lt;p>Wenn Du hier eigene Prefabs hinzufügen möchtest, musst Du den &lt;a href="https://github.com/BoundfoxStudios/community-project/blob/develop/CommunityProject/Assets/_Game/Scripts/Runtime/EditorExtensions/ScriptableObjects/PrefabManagerSO.cs">PrefabManager im Code&lt;/a> und die &lt;a href="https://github.com/BoundfoxStudios/community-project/tree/develop/CommunityProject/Assets/_Game/Scripts/Editor/Menus/GameObjectMenu">Menü-Einträge&lt;/a> erweitern.&lt;/p>
 &lt;h3 id="ich-finde-nicht-was-ich-brauche">Ich finde nicht, was ich brauche.&lt;/h3>
 &lt;p>Es kann durchaus sein, dass Du UI umsetzen möchtest, aber es dafür noch keine passenden Prefabs findest.
-Am Besten legst Du diese dann an und fügst wie, wie im Abschnitt zuvor beschrieben, dem PrefabManager hinzu.&lt;/p></description></item><item><title>Docs: Scene Templates</title><link>https://boundfoxstudios.github.io/community-project/docs/docs-technical/systems/scene-templates/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://boundfoxstudios.github.io/community-project/docs/docs-technical/systems/scene-templates/</guid><description>
+Am Besten legst Du diese dann an und fügst wie, wie im Abschnitt zuvor beschrieben, dem PrefabManager hinzu.&lt;/p></description></item><item><title>Docs: Runtime Anchors</title><link>https://docs.fairytaledefender.de/docs/docs-technical/systems/runtime-anchors/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://docs.fairytaledefender.de/docs/docs-technical/systems/runtime-anchors/</guid><description>
+&lt;p>Oft benötgt man in Unity Referenzen auf andere GameObjects.
+Gerade durch den Ansatz mit &lt;a href="../multi-scene-management/">Multi-Scene-Management&lt;/a> kommt es vor, dass ein GameObject nicht in der eigenen Scene, sondern in einer anderen liegt.
+Leider wird zur Lösung hier oft ein Singleton-Pattern im Code implementiert, was die Wartbarkeit und Testbarkeit erschwert.&lt;/p>
+&lt;p>Anstelle von Singletons im Code verwenden wir Runtime Anchors.
+Ein Runtime Anchor ist ein ScriptableObject, was eine Referenz auf ein bestimmtes GameObject kennt.
+Dadurch entkoppeln wir verschiedene Systeme und es entsteht keine harte Abhängigkeit.
+Als prominentes Beispiel wäre hier die MainCamera zu nennen, diese wird öfter mal in einem Spiel gebraucht, sei es zur Berechnung von Raycasts oder für Billboard-UI-Elemente.&lt;/p>
+&lt;p>Die Basis vom Runtime Anchor ist wie folgt implementiert:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-cs" data-lang="cs">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#00f">public&lt;/span> &lt;span style="color:#00f">abstract&lt;/span> &lt;span style="color:#00f">class&lt;/span> &lt;span style="color:#2b91af">RuntimeAnchorBaseSO&lt;/span>&amp;lt;T&amp;gt; : ScriptableObject
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#00f">where&lt;/span> T : &lt;span style="color:#00f">class&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#00f">public&lt;/span> &lt;span style="color:#2b91af">bool&lt;/span> IsSet { &lt;span style="color:#00f">get&lt;/span>; &lt;span style="color:#00f">private&lt;/span> &lt;span style="color:#00f">set&lt;/span>; }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#00f">private&lt;/span> T? _item;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#00f">public&lt;/span> T? Item
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#00f">get&lt;/span> =&amp;gt; _item;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#00f">set&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> _item = &lt;span style="color:#00f">value&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> IsSet = _item &lt;span style="color:#00f">is&lt;/span> not &lt;span style="color:#00f">null&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#00f">private&lt;/span> &lt;span style="color:#00f">void&lt;/span> OnDisable()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> _item = &lt;span style="color:#00f">null&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> IsSet = &lt;span style="color:#00f">false&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Eine konkrete Implementierung für eine Camera wäre:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-cs" data-lang="cs">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#00f">using&lt;/span> UnityEngine;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>[CreateAssetMenu]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#00f">public&lt;/span> &lt;span style="color:#00f">class&lt;/span> &lt;span style="color:#2b91af">CameraRuntimeAnchorSO&lt;/span> : RuntimeAnchorBaseSO&amp;lt;Camera&amp;gt; { }
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Jetzt werden zwei Dinge benötigt:&lt;/p>
+&lt;ol>
+&lt;li>Ein Skript muss den Wert des &lt;code>CameraRuntimeAnchorSO&lt;/code>s setzen.&lt;/li>
+&lt;li>Jemand muss diesen Wert konsumieren.&lt;/li>
+&lt;/ol>
+&lt;p>In beiden Fällen wird in einem &lt;code>MonoBehaviour&lt;/code> oder auch in einem weiteren &lt;code>ScriptableObject&lt;/code> ein Feld dafür angelegt:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-cs" data-lang="cs">&lt;span style="display:flex;">&lt;span>[field: SerializeField]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#00f">private&lt;/span> CameraRuntimeAnchorSO CameraRuntimeAnchor { &lt;span style="color:#00f">get&lt;/span>; &lt;span style="color:#00f">set&lt;/span>; } = &lt;span style="color:#00f">default&lt;/span>!;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#008000">// Anchor setzen:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#00f">private&lt;/span> &lt;span style="color:#00f">void&lt;/span> Awake()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> CameraRuntimeAnchor.Item = GetComponent&amp;lt;Camera&amp;gt;();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#00f">private&lt;/span> &lt;span style="color:#00f">void&lt;/span> OnDestroy()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> CameraRuntimeAnchor.Item = &lt;span style="color:#00f">null&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#008000">// Anchor nutzen:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#00f">private&lt;/span> &lt;span style="color:#00f">void&lt;/span> DoSomething()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#2b91af">var&lt;/span> camera = CameraRuntimeAnchor.Item;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008000">// camera.ScreenPointToRay...&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Docs: Scene Templates</title><link>https://docs.fairytaledefender.de/docs/docs-technical/systems/scene-templates/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://docs.fairytaledefender.de/docs/docs-technical/systems/scene-templates/</guid><description>
 &lt;p>Du kannst komfortabel neue Szenen anlegen, wenn Du in Unity über das Menü &lt;code>File&lt;/code> -&amp;gt; &lt;code>New Scene&lt;/code> gehst.
-Dort findest Du im Dialog zwei Templates, die vom Community-Projekt stammen:&lt;/p>
+Dort findest Du im Dialog zwei Templates, die von Fairy Tale Defender stammen:&lt;/p>
 &lt;ul>
 &lt;li>Menu Szene&lt;/li>
 &lt;li>Level Szene&lt;/li>
 &lt;/ul>
 &lt;p>Wähle die &lt;strong>Menu Szene&lt;/strong>, wenn Du ein neues Menü anlegen möchtest.
 Darunter zählen alle FullScreen-Menüs, z.B. MainMenu, Optionen, Credits.&lt;/p>
-&lt;p>Wähle die &lt;strong>Level Szene&lt;/strong>, wenn Du ein neues Leven anlegen möchtest.&lt;/p></description></item></channel></rss>
+&lt;p>Wähle die &lt;strong>Level Szene&lt;/strong>, wenn Du ein neues Leven anlegen möchtest.&lt;/p></description></item><item><title>Docs: Towers</title><link>https://docs.fairytaledefender.de/docs/docs-technical/systems/towers/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://docs.fairytaledefender.de/docs/docs-technical/systems/towers/</guid><description>
+&lt;p>Auf dieser Seite findet sich die Dokumentation, wie man einen Turm im Spiel erstellen und organisiert ablegen kann.
+Wichtig zu verstehen ist, dass der Turm selbst keine großartige Funktion hat.
+Oft würde die Funktion, z.B. von einem Katapult-Turm, direkt &amp;ldquo;in den Turm&amp;rdquo; implementiert werden.
+Wir gehen im Spiel allerdings einen anderen Ansatz und sehen die Waffe als eigenständige Waffe, die die eigentliche Funktion implementiert hat.
+Der Turm ist nur ein &amp;ldquo;Etwas&amp;rdquo;, das die Waffe trägt.
+Daher ist es wichtig, sich auch den Abschnitt über &lt;a href="../weapons/">Waffen&lt;/a> durchzulesen.&lt;/p>
+&lt;h2 id="organisation">Organisation&lt;/h2>
+&lt;h3 id="prefabs">Prefabs&lt;/h3>
+&lt;p>Im Ordner &lt;code>_Game/Prefabs/Buildings/Towers&lt;/code> befinden sich alle vom Spieler baubaren Türme.
+Jeder Turm bekommt hier seinen eigenen Ordner.&lt;/p>
+&lt;p>Als Beispiel zeigt das Bild den &amp;ldquo;CatapultTower&amp;rdquo;:&lt;/p>
+&lt;p>&lt;img src="assets/towers.png" alt="CatapultTower">&lt;/p>
+&lt;p>Jeder Turm besteht aus drei Prefabs:&lt;/p>
+&lt;ol>
+&lt;li>&lt;code>Turmname_Gfx&lt;/code>: Beinhaltet die grafische Umsetzung des Turms ohne weitere Scripts.&lt;/li>
+&lt;li>&lt;code>Turmname_Blueprint&lt;/code>: Ist eine Variante von &lt;code>Turmname_Gfx&lt;/code>, bei dem die Materialen zum &lt;code>Blueprint&lt;/code> geändert wurden.
+Diese Repräsentation wird genutzt, um dem Spieler ein &amp;ldquo;Geist&amp;rdquo;-Element anzuzeigen, wo der Turm gebaut werden kann.
+Im Bild sieht man links den Blueprint/Geist und rechts den gebauten Turm.&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="assets/ghost.png" alt="Geist und echter Turm">&lt;/p>
+&lt;ol start="3">
+&lt;li>&lt;code>Turmname&lt;/code>: Der eigentliche funktionierende Turm, der im Spiel platziert wird. Er nutzt &lt;code>Tower_Base&lt;/code> als Basis-Prefab,
+&lt;code>Turmname_Gfx&lt;/code> für die visuelle Darstellung und eine Waffe. Wie genau alles zusammengestöpselt ist, erklärt der Abschnitt &lt;a href="#Turmaufbau">Turmaufbau&lt;/a>.&lt;/li>
+&lt;/ol>
+&lt;h3 id="scriptableobject">ScriptableObject&lt;/h3>
+&lt;p>Zu jedem baubaren Turm gehört ein ScriptableObject, das im Ordner &lt;code>_Game/ScriptableObjects/Buildings/Towers&lt;/code> abgelegt wird.&lt;/p>
+&lt;p>&lt;img src="assets/scriptable-object.png" alt="ScriptableObject eines Turms">&lt;/p>
+&lt;p>In diesem ScriptableObject stehen aktuell nur, welches Prefab gebaut werden kann und welches Prefab als Blueprint dient.&lt;/p>
+&lt;h2 id="turmaufbau">Turmaufbau&lt;/h2>
+&lt;p>Im weiteren wird beschrieben, wie die drei Prefabs für einen Turm aufgebaut sind.&lt;/p>
+&lt;h3 id="gfx-prefab">Gfx-Prefab&lt;/h3>
+&lt;p>&lt;img src="assets/gfx-organization.png" alt="Gfx-Prefab">&lt;/p>
+&lt;ul>
+&lt;li>Basis-Prefab.&lt;/li>
+&lt;li>Beinhaltet direkt das Modell oder Modelle für die visuelle Repräsentation.&lt;/li>
+&lt;li>Beinhaltet ein leeres GameObject &amp;ldquo;Weapon&amp;rdquo; das dort platziert ist, wo später die Waffe vom Turm stehen wird.&lt;/li>
+&lt;/ul>
+&lt;h3 id="blueprint-prefab">Blueprint-Prefab&lt;/h3>
+&lt;p>&lt;img src="assets/blueprint-organization.png" alt="Blueprint-Prefab">&lt;/p>
+&lt;ul>
+&lt;li>Varianten-Prefab vom obigen Gfx-Prefab.&lt;/li>
+&lt;li>Hier werden alle Materialen (sofern nötig) zum Blueprint-Material geändert.&lt;/li>
+&lt;li>Sollte der Turm irgendwelche Effekte haben, die wir im Baumodus nicht benötigen, dann können sie hier ausgeschaltet werden.&lt;/li>
+&lt;li>In das GameObject &lt;code>Weapon&lt;/code> wird jetzt die visuelle Repräsentation einer Waffe gelegt (siehe &lt;a href="../weapons/#Waffenaufbau">Waffenaufbau&lt;/a>.&lt;/li>
+&lt;/ul>
+&lt;h3 id="turm-prefab">Turm-Prefab&lt;/h3>
+&lt;p>&lt;img src="assets/tower-organization.png" alt="Turmaufbau">&lt;/p>
+&lt;ul>
+&lt;li>Varianten-Prefab von &lt;code>Tower_Base&lt;/code>.&lt;/li>
+&lt;li>In das GameObject &lt;code>GFX&lt;/code> wird das Gfx-Prefab (siehe oben) abgelegt.&lt;/li>
+&lt;li>Beinhaltet alle Scripts, um den Turm zum Leben zu erwecken.&lt;/li>
+&lt;/ul></description></item><item><title>Docs: Waffen</title><link>https://docs.fairytaledefender.de/docs/docs-technical/systems/weapons/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://docs.fairytaledefender.de/docs/docs-technical/systems/weapons/</guid><description>
+&lt;p>Auf dieser Seite finden sich alle Informationen zu den im Spiel implementierten Waffen und wie man neue Waffen erstellen kann.
+Wichtig ist, dass mit Waffe nicht der Turm gemeint ist.
+Der &lt;a href="../towers/">Turm&lt;/a> ist eine recht dümmliche Struktur, die nur zum Tragen einer Waffe dient.&lt;/p>
+&lt;p>Die Waffe implementiert die Funktion, um z.B. ein Katapult zum Abschuss zu bringen.
+Daher unterscheiden wir die &lt;a href="weapon-types/">Waffen nach ihrer Art&lt;/a>, z.B. ballistische Waffen (Katapult), direkte Waffen (Gewehre), etc.&lt;/p>
+&lt;h2 id="organisation">Organisation&lt;/h2>
+&lt;p>Ähnlich wie &lt;a href="../towers/">Türme&lt;/a> bestehen Waffen aus Prefabs und ScriptableObjects.&lt;/p>
+&lt;h3 id="prefabs">Prefabs&lt;/h3>
+&lt;p>Im Ordner &lt;code>_Game/Prefabs/Weapons&lt;/code> befinden sich alle Waffen.
+Jede Waffe bekommt hier einen eigenen Ordner.&lt;/p>
+&lt;p>Als Beispiel zeigt das Bild das &amp;ldquo;Catapult&amp;rdquo;:&lt;/p>
+&lt;p>&lt;img src="assets/weapons.png" alt="Waffen-Prefabs">&lt;/p>
+&lt;p>Jede Waffe besteht aus zwei Prefabs:&lt;/p>
+&lt;ol>
+&lt;li>&lt;code>Waffenname_Gfx&lt;/code>: Beinhaltet die grafische Umsetzung der Waffe ohne weitere Scripts.&lt;/li>
+&lt;li>&lt;code>Waffenname&lt;/code>: Ist eine Variante von &lt;code>Weapon_Base&lt;/code> und beinhaltet alle Scripts, um die Waffe zum Leben zu erwecken.
+Er nutzt &lt;code>Waffenname_Gfx&lt;/code> für die visuelle Repräsentation.&lt;/li>
+&lt;/ol>
+&lt;h3 id="scriptableobject">ScriptableObject&lt;/h3>
+&lt;p>Zu jeder Waffe gehört ein ScriptableObject, das im Ordner &lt;code>_Game/ScriptableObjects/Weapons&lt;/code> abgelegt wird.&lt;/p>
+&lt;p>&lt;img src="assets/weapon-so.png" alt="ScriptableObject einer Waffe">&lt;/p>
+&lt;p>In diesem ScriptableObject werden alle Parameter für eine Waffe festgehalten, z.B.&lt;/p>
+&lt;ul>
+&lt;li>Reichweite&lt;/li>
+&lt;li>Mindestreichweite&lt;/li>
+&lt;li>Angriffswinkel&lt;/li>
+&lt;li>etc.&lt;/li>
+&lt;/ul>
+&lt;p>Diese Werte sind als Basiswerte zu verstehen und werden später durch Forschung verbessert werden können.&lt;/p>
+&lt;h2 id="waffenaufbau">Waffenaufbau&lt;/h2>
+&lt;h3 id="gfx-prefab">Gfx-Prefab&lt;/h3>
+&lt;p>&lt;img src="assets/weapon-gfx.png" alt="Gfx-Prefab">&lt;/p>
+&lt;ul>
+&lt;li>Basis-Prefab.&lt;/li>
+&lt;li>Beinhaltet direkt das Modell oder Modelle für die visuelle Repräsentation.&lt;/li>
+&lt;/ul>
+&lt;h3 id="waffe-prefab">Waffe-Prefab&lt;/h3>
+&lt;ul>
+&lt;li>Varianten-Prefab von &lt;code>Weapon_Base&lt;/code>.&lt;/li>
+&lt;li>Beinhaltet alle Scripts, um die Waffe zum Leben zu erwecken.&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="assets/weapon-inspector.png" alt="Waffe-Inspektor">&lt;/p>
+&lt;ul>
+&lt;li>Eine Waffe nutzt je nach Waffenart ein bestimmtes Script.
+&lt;ul>
+&lt;li>z.B. benutzt eine ballistische Waffe das Script &lt;code>BallisticWeapon&lt;/code>.&lt;/li>
+&lt;li>Hier wird das ScriptableObject für die Waffendefinition verknüpft (siehe &lt;a href="#ScriptableObject">oben&lt;/a> als auch ein &lt;a href="target-locator/">Target Locator&lt;/a>.&lt;/li>
+&lt;li>Zusätzlich wird das Prefab für ein &lt;a href="weapon-types/#Projektile">Projektil&lt;/a> bestimmt.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul></description></item></channel></rss>
